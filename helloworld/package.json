@@ -1,0 +1,15 @@
+{
+  "name": "helloworld",
+  "version": "1.0.0",
+  "description": "Node.js helloworld on Dockeroids",
+  "main": "helloworld.js",
+  "author": "Pascal van Dam <pascal@yunix.org>",
+  "scripts": {
+    "start": "node helloworld.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "express": "^4.15.4",
+    "node-proc": "0.0.1"
+  }
+}

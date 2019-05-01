@@ -1,0 +1,15 @@
+{
+	"apiVersion": "v1",
+	"kind": "Route",
+	"metadata": {
+		"name": "myapp"
+	},
+	"spec": {
+		"host": "myapp.apps.example.com",
+		"to": {
+			"kind": "Service",
+			"name": "myapp"
+		}
+	}
+}
+

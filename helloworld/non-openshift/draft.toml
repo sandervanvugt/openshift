@@ -1,0 +1,10 @@
+[environments]
+  [environments.development]
+    name = "helloworld"
+    namespace = "default"
+    wait = true
+    watch = false
+    watch-delay = 2
+    auto-connect = false
+    dockerfile = "Dockerfile"
+    chart = ""
