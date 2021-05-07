@@ -44,10 +44,10 @@ items:
       type: Source
     triggers:
     - github:
-        secret: BLGUor2JhlTRm4huxtPz
+        secret: 2eorklxyCVITXDzHFMlT
       type: GitHub
     - generic:
-        secret: IXpudEnNs6_i6FRwkvBk
+        secret: 4MoTILHp_ehJCeYbPCUQ
       type: Generic
     - type: ConfigChange
     - imageChange: {}
@@ -83,9 +83,9 @@ items:
         - image: simple1:latest
           name: simple1
           ports:
-          - containerPort: 8080
-            protocol: TCP
           - containerPort: 8443
+            protocol: TCP
+          - containerPort: 8080
             protocol: TCP
           resources: {}
     test: false

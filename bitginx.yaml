@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: biggyx
+  name: biggyx
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: biggyx
+  strategy: {}
+  template:
+    restartPolicy: onFailure
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: biggyx
+    spec:
+      containers:
+      - image: bitnami/nginx
+        name: nginx
+        resources: {}
+status: {}
