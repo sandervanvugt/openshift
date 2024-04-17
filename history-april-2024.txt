@@ -1,0 +1,190 @@
+  844  wget https://developers.redhat.com/content-gateway/file/pub/openshift-v4/clients/crc/2.34.1/crc-linux-amd64.tar.xz
+  845  tar xvf crc-linux-amd64.tar.xz 
+  846  which crc
+  847  sudo cp crc-linux-2.34.1-amd64/crc /usr/local/bin/
+  848  crc setup
+  849  df -h
+  850  crc start
+  851  history | grep crc start
+  852  history | grep 'crc start'
+  853  crc start -m 14000 -p pull-secret
+  854  cd Downloads/
+  855  ls
+  856  crc start -m 14000 -p pull-secret
+  857  eval $(crc oc-env)
+  858  oc login -u developer https://api.crc.testing:6443
+  859  oc new-project wednesday
+  860  oc -h | less
+  861  oc new-app -h | less
+  862  oc completion -h
+  863  source <(oc completion bash)
+  864  history
+  865  oc whoami
+  866  oc projects
+  867  oc run testpod --image=bitnami/nginx:1.23
+  868  oc get all
+  869  oc login -u kubeadmin -p uAaXN-FX9gc-7Djzb-LxmZD
+  870  oc login -u developer -p developer
+  871  oc api-resources | less
+  872  oc api-resources | ec -l
+  873  oc api-resources | wc -l
+  874  oc api-resources | grep route
+  875  oc get api-resources | grep -i deploy
+  876  oc api-resources | grep -i deploy
+  877  cd
+  878  countdown 12
+  879  history
+  880  oc explain pod
+  881  oc get pods
+  882  oc get pods testpod -o yaml | less
+  883  oc explain pod
+  884  oc explain pod.spec | less
+  885  oc create ns tryme
+  886  oc get ns
+  887  oc login -u kubeadmin -p uAaXN-FX9gc-7Djzb-LxmZD
+  888  oc get ns
+  889  oc login -u developer -p developer
+  890  oc new-app -h | less
+  891  oc get deploy
+  892  oc get dc
+  893  oc whoami
+  894  oc new-app webapp --image=bitnami/nginx
+  895  oc get all
+  896  oc new-app -h | less
+  897  oc new-app --name=webapp --image=bitnami/nginx
+  898  oc get all
+  899  oc status
+  900  oc get all
+  901  oc run mariadb
+  902  oc run --image=mariadb
+  903  oc run mydb --image=mariadb
+  904  oc get all
+  905  oc describe pod mydb
+  906  oc logs mydb
+  907  oc get pods
+  908  oc delete pod mydb
+  909  oc run mydb --image=mariadb -e MARIADB_ROOT_PASSWORD=password
+  910  oc run mydb --image=mariadb --env MARIADB_ROOT_PASSWORD=password
+  911  oc get pods
+  912  oc describe pods mydb
+  913  oc logs mydb
+  914  history
+  915  oc create deploy --image=bitnami/nginx --dry-run -o yaml
+  916  oc create deploy mynginx --image=bitnami/nginx --dry-run -o yaml
+  917  oc create deploy mynginx --image=bitnami/nginx --dry-run=client -o yaml
+  918  oc create deploy mynginx --image=bitnami/nginx --dry-run=client -o yaml > mynginx.yaml
+  919  vim mynginx.yaml 
+  920  oc explain deploy.spec
+  921  vim mynginx.yaml 
+  922  oc apply -f mynginx.yaml 
+  923  vim mynginx.yaml 
+  924  oc apply -f mynginx.yaml 
+  925  oc get deploy
+  926  oc get deploy webapp -o yaml > webapp.yaml
+  927  vim webapp.yaml 
+  928  history
+  929  countdown 12
+  930  history
+  931  oc new-project route
+  932  oc projects
+  933  oc new-app --as-deployment-config bitnami/nginx --name bitginx
+  934  oc get all
+  935  oc describe svc bitginx 
+  936  oc expose svc bitginx 
+  937  oc get all
+  938  oc describe route
+  939  oc run -it ubix --image=ubi8 -- bash
+  940  curl bitginx-route.apps-crc.testing
+  941  oc get services -A
+  942  oc login -u kubeadmin -p uAaXN-FX9gc-7Djzb-LxmZD
+  943  oc get services -A
+  944  oc login -u developer -p developer
+  945  oc set 
+  946  oc new-project configuartion
+  947  oc create deployment --image=bitnami/nginx
+  948  oc create deployment mynginx --image=bitnami/nginx
+  949  oc get pods
+  950  oc get pods -o wide
+  951  oc expose deploy mynginx --type=NodePort --port=8080
+  952  oc get all
+  953  crc ip
+  954  curl 192.168.130.11:31088
+  955  oc cp mynginx-565b455ff4-zjmmt:/app/index.html index.html
+  956  vim index.html 
+  957  oc create cm mycm --from-file=index.html
+  958  oc describe cm mycm
+  959  oc set volume deploy mynginx --add --type configmap --configmap-name mycm --mount-path=/app/
+  960  oc get svc
+  961  curl 192.168.130.11:31088
+  962  oc get deploy mynginx -o yaml | less
+  963  oc whoami
+  964  oc new-project db
+  965  oc create deploy mymariadb --image=mariadb
+  966  oc delete deploy mymariadb
+  967  oc create deploy mymariadb --image=bitnami/mariadb
+  968  oc get pods
+  969  oc logs mymariadb-557f8bd44b-kzl6s 
+  970  oc create cm myvars --from-literal=MYSQL_ROOT_PASSWORD=password
+  971  oc describe cm myvars 
+  972  oc set env deploy mymariadb --from=configmap/myvars
+  973  oc get all
+  974  oc describe deployment mymariadb | less
+  975  oc get deploy mymariadb -o yaml | less
+  976  oc get all
+  977  oc describe pod mymariadb-55f9578767-b4jrd 
+  978  df -h
+  979  oc login -u kubeadmin -p uAaXN-FX9gc-7Djzb-LxmZD
+  980  oc edit node crc 
+  981  oc login -u developer -p developer
+  982  oc get pods
+  983  oc logs mymariadb-55f9578767-b4jrd 
+  984  crc stop
+  985  crc delete
+  986  crc start -m 14000 -p Download/pull-secret -d 100
+  987  cd Downloads/
+  988  crc start -m 14000 -p pull-secret -d 100
+  989  oc projects
+  990  eval $(crc oc-env)
+  991  oc login -u developer -p developer
+  992  oc login -u kubeadmin -p DvpJI-JxiyK-rKcs6-rh4tK
+  993  oc whoami
+  994  oc login -u developer -p developer
+  995  oc create deploy oldginx --image=bitnami/nginx:1.17
+  996  oc project oops
+  997  oc whoami
+  998  oc logout
+  999  exit
+ 1000  history
+ 1001  eval $(crc oc-env)
+ 1002  oc login -u developer -p developer
+ 1003  oc new-project oops
+ 1004  oc create deploy oldginx --image=bitnami/nginx:1.17
+ 1005  oc get all
+ 1006  oc set -h | less
+ 1007  oc set image -h | less
+ 1008  #oc set image dc/nginx busybox=busybox nginx=nginx:1.9.1
+ 1009  oc get all
+ 1010  oc set image dc/oldnginx nginx=bitnami/nginx:latest
+ 1011  oc set image deploy/oldnginx nginx=bitnami/nginx:latest
+ 1012  oc get all
+ 1013  oc set image deploy/oldginx nginx=bitnami/nginx:latest
+ 1014  oc get all
+ 1015  oc explain deploy.spec
+ 1016  oc explain deploy.spec.strategy
+ 1017  oc login -u kubeadmin -p DvpJI-JxiyK-rKcs6-rh4tK
+ 1018  oc get is -n openshift
+ 1019  oc login -u developer -p developer
+ 1020  oc new-project source
+ 1021  oc -o yaml new-app php~https://github.com/sandervanvugt/simpleapp --name=simple > s2i.yaml
+ 1022  vim s2i.yaml 
+ 1023  oc apply -f s2i.yaml 
+ 1024  oc get all
+ 1025  oc logs simple-1-build
+ 1026  oc get all
+ 1027  df -h
+ 1028  oc logs simple-1-build
+ 1029  oc new-app php~https://github.com/sandervanvugt/simpleapp --name=notsosimple
+ 1030  oc get all
+ 1031  oc login -u kubeadmin -p DvpJI-JxiyK-rKcs6-rh4tK
+ 1032  crc status
+ 1033  history
