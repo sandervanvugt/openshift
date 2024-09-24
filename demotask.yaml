@@ -1,0 +1,16 @@
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: demotask
+spec:
+  steps:
+  - name: stepone
+    image: alpine
+    script: |
+      #!/bin/sh
+      echo "hello step one"
+  - name: steptwo
+    image: alpine
+    script: |
+      #!/bin/sh
+      echo "hello step two"

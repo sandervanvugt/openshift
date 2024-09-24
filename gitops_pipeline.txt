@@ -1,0 +1,80 @@
+GITOPS OPERATOR WORK
+
+CI PART
+a.	create a preprod dataset in a persistent volume (
+	-	unnamespaced: type hostPath
+	-	index.html containing text preproduction
+	-	StorageClass label "preproduction"
+b.	create a prod dataset in a persistent volume 
+	-	index.html containing text production
+	-	StorageClass label "production"
+
+kubectl apply -f gitops-preprod-pv.yaml
+kubectl apply -f gitops-preprod-pvc.yaml
+kubectl apply -f gitops-pv-pod-preprod.yaml
+kubectl exec -it gitops-pod-preprod -- bash
+        echo preproduction > /usr/share/nginx/html/index.html
+kubectl delete -f gitops-pod-preprod
+kubectl apply -f gitops-prod-pv.yaml
+kubectl apply -f gitops-prod-pvc.yaml
+kubectl apply -f gitops-pv-pod-prod.yaml
+kubectl exec -it gitops-pod-prod -- bash
+	echo production > /usr/share/nginx/html/index.html
+kubectl delete -f gitops-pod-prod
+
+1.	create a preprod environment as a namespace
+
+	kubectl create ns preprod
+	kubectl create ns prod
+	# create gitops-preprod git repository and initialize it
+	mkdir /gitops-preprod
+
+## verify all of this
+##assuming that gitops-preprod has been initialized as a git repo
+###
+	kubectl create deploy preprod-deploy --image=nginx --replicas=3 --dry-run=client -n preprod -o yaml > preprod-deploy.yaml
+	##edit to mount the storage (or use patch)
+        ##edit to change label to environment=preproduction
+	kubectl apply -f preprod-deploy.yaml
+	kubectl expose deploy -n preprod preprod-deploy --label=environment=preproduction --type=NodePort --port=80 --dry-run=client -o yaml > preprod-svc.yaml
+	kubectl apply -f preprod-svc.yaml
+# at this point we have deploy and svc files in git repo
+	kubectl delete -f preprod-svc.yaml
+	kubectl delete -f preprod-deploy.svc
+	# copy the *pvc.yaml files to current directory
+	git add *
+	git commit -m "adding initial resources"
+	git push
+# now we can run gitops-preprod-operator which will do a new kubectl apply every two minutes
+	kubectl apply -f gitops-preprod-operator
+# now its time to run the script, test and promote to production
+# the script should run from a pod in the preprod namespace for smooth access to svc DNS name
+	#!/bin/bash
+	curl preprod | grep preproduction || exit 3
+	cp preprod-deploy.yaml prod-deploy.yaml
+	cp preprod-svc.yaml prod-svc.yaml
+	sed -i -e 's/environment: preproduction/environment: production/g' prod*.yaml
+	## at this point the production files are ready ###VERIFY
+
+	-	poll the git repository for deployments periodically
+		-	deployment needs to run an nginx based deployment
+		-	comes with a PVC that uses StorageClass as a selector label in the same YAML file
+		-	uses label environment=preproduction
+	-	expose the application as a nodePort service, using environment=preproduction label
+	-	test the application: shell script that greps for preproduction after using curl to connect to the application
+	-	shell: if test succeeds
+		-	use sed to change environment=preproduction to environment=production in deployment yaml
+		-	use sed to change StorageClass name preproduction to production
+		-	shell: move this to appropriate Git branch or subdirectory (name=production)
+
+
+
+TODO: involve Git Branches
+
+CD PART
+2.	create a prod environment as a namespace
+	-	poll the git repository for deployments periodically and kubectl apply if there is a diff
+	-	expose the application as a nodePort service
+	-	test the application
+	-	if succeeds, continue running the operator loop
+	

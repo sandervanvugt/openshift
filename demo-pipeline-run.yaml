@@ -1,0 +1,10 @@
+apiVersion: tekton.dev/v1beta1
+kind: PipelineRun
+metadata:
+  name: demopipe-run
+spec:
+  pipelineRef:
+    name: demopipe
+  params:
+  - name: username
+    value: "lisa"
