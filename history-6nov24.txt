@@ -1,0 +1,635 @@
+    1  sudo -i
+    2  su -
+    3  sudo -i
+    4  su -
+    5  eval $(crc oc-env)
+    6  oc login -u developer
+    7  oc new-project demoone
+    8  oc new-app rails-postgresql-example
+    9  oc get all
+   10  oc api-resources | less
+   11  oc explain pod
+   12  oc explain pod.spec
+   13  oc explain pod.spec.containers | less
+   14  oc api-resources | grep - deploy
+   15  oc api-resources | grep -i deploy
+   16  oc explain deploymentconfigs.spec | less
+   17  oc explain deployment.spec
+   18  oc new-project deploy
+   19  source <(oc completion bash)
+   20  oc create deployment nginxone --image=docker.io/bitnami/nginx
+   21  oc get all
+   22  oc describe deployment nginxone 
+   23  oc describe pod nginxone-9bdf5fb7-4rqxr 
+   24  oc logs nginxone-9bdf5fb7-4rqxr 
+   25  oc whoami
+   26  oc get projects
+   27  oc get ns
+   28  crc console --credentials
+   29  oc login -u kubeadmin -p mjGRH-XmUQm-oC55w-zRSTX
+   30  oc get projects
+   31  oc get ns
+   32  oc get pods
+   33  oc project
+   34  oc get pods -A
+   35  oc login -u developer
+   36  oc get all -n demoone
+   37  oc whoami
+   38  oc new-project newapp
+   39  oc new-app --help | less
+   40  oc new-app quay.io/bitnami/nginx
+   41  oc new-app bitnami/nginx
+   42  oc get all
+   43  oc login -u kubeadmin -p mjGRH-XmUQm-oC55w-zRSTX
+   44  oc get statefullset -A
+   45  oc get statefulset -A
+   46  oc whoami
+   47  oc get ds -A
+   48  oc new-project scale
+   49  oc create deploy scaler --image=docker.io/bitnami/nginx
+   50  oc get all
+   51  oc scale deploy scaler --replicas=3
+   52  oc get all
+   53  oc autoscale deploy scaler --min=1 --max=10 --cpu-percent=10
+   54  oc get hpa
+   55  oc run redis --image=redus
+   56  oc run redis --image=redis
+   57  oc delete pod redis
+   58  oc run redis --image=redis
+   59  oc get pods
+   60  oc delete pod redis
+   61  oc login -u developer
+   62  oc new-project lab6
+   63  oc create deploy redis --image=redis --replicas=2
+   64  oc get all
+   65  oc autoscale deploy redis --min=1 --max=5 --cpu-percent=2
+   66  oc get hpa
+   67  oc get all
+   68  git clone https://github.com/sandervanvugt/openshift
+   69  sudo dnf install -y git
+   70  git clone https://github.com/sandervanvugt/openshift
+   71  cd openshift/
+   72  ks
+   73  ls
+   74  cd ..
+   75  rm -rf openshift/
+   76  git clone https://github.com/sandervanvugt/openshift
+   77  cd openshift/
+   78  ls
+   79  vim morevolumes.yaml 
+   80  oc apply -f morevolumes.yaml 
+   81  oc get pods
+   82  oc describe pod morevol2 
+   83  oc exec -it morevol2 -c centos1 -- touch /centos1/hello
+   84  oc exec -it morevol2 -c centos2 -- ls /centos2/
+   85  ls
+   86  cat pv.yaml 
+   87  oc get all
+   88  oc set volume --help | less
+   89  oc set volume deploy.redis --add -t --claim-size=1G --mount-path=/data
+   90  oc set volume deploy/redis --add -t pvc --claim-size=1G --mount-path=/data
+   91  oc describe deploy redis
+   92  oc get pvc,pv
+   93  oc login -u kubeadmin -p mjGRH-XmUQm-oC55w-zRSTX
+   94  oc get pv
+   95  oc describe pv pvc-8104d1c2-df65-44b5-b005-ecf053376a32 
+   96  vim pv.yaml 
+   97  vim pvc.yaml 
+   98  vim pv-pod.yaml 
+   99  oc whoami
+  100  oc login -u developer
+  101  oc new-project storage
+  102  oc create deploy dataweb --image=docker.io/bitnami/nginx --replicas=3
+  103  oc set volume deploy dataweb --add -t pvc --claim-size=1G --mount-path=/opt/bitnami/nginx/conf/
+  104  oc login -u kubeadmin -p mjGRH-XmUQm-oC55w-zRSTX
+  105  oc get pvc,pv,storageclass
+  106  oc describe deployment dataweb 
+  107  oc login -u developer
+  108  oc new-project lab7
+  109  oc create deploy lab7 --image=bitnami/nginx
+  110  oc set volume deploy lab7 --add -t pvc --claim-size=2G --mount-path=/data
+  111  oc describe deployment lab7
+  112  oc get pvc
+  113  exit
+  114  tkn
+  115  exit
+  116  free -m
+  117  sudo poweroff
+  118  sudo -i
+  119  ls
+  120  cd Downloads/
+  121  ls
+  122  ssh sander@192.168.52.136
+  123  scp sander@192.168.52.136:/home/sander/Download/pul-secret .
+  124  scp sander@192.168.52.136:/home/sander/Download/pull-secret .
+  125  scp sander@192.168.52.136:/home/sander/Downloads/pull-secret .
+  126  ls
+  127  tar xvf crc-linux-amd64.tar.xz 
+  128  cd crc-linux-2.41.0-amd64/
+  129  df -h
+  130  free -m
+  131  crc setup
+  132  ls
+  133  sudo cp crc /usr/local/bin
+  134  crc setup
+  135  crc start -p ../pull-secret -m 32768 -d 128 -p 8
+  136  cd ..
+  137  ls
+  138  crc start -p pull-secret -m 32768 -d 128 -p 8
+  139  cat pull-secret 
+  140  crc start -p pull-secret -m 32768 -d 128 
+  141  ip a
+  142  source $(crc oc-env_
+  143  source $(crc oc-env)
+  144  source <$(crc oc-env)
+  145  crc status
+  146  history
+  147  history | grep source
+  148  crc --help
+  149  crc oc-env
+  150  eval $(crc oc-env)
+  151  oc login -u developer
+  152  oc new-project cmvars
+  153  oc create deploy mydb --image=rhel9/mariadb-1011
+  154  oc get all
+  155  source <(oc completion bash)
+  156  oc logs mydb-7bffc46794-27blc 
+  157  oc create cm mydbconfig --from-literal=MYSQL_ROOT_PASSWORD=password
+  158  oc describe cm mydbconfig 
+  159  oc set env --from=configmap/mydbconfig deploy/mydb
+  160  oc get all
+  161  oc get pods mydb-786ff6bc8f-9fhcg -o yaml | less
+  162  oc create deploy myweb --image=bitnami/nginx
+  163  echo hello world > index.html
+  164  oc create cm webindex --from-file=index.html
+  165  oc set volume --add -t configmap --configmap-name webindex -m /opt/bitnami/nginx/conf/index.html --sub=path='index.html' deploy/myweb
+  166  oc set volume --add -t configmap --configmap-name webindex -m /opt/bitnami/nginx/conf/index.html --sub-path='index.html' deploy/myweb
+  167  oc exec -it myweb-7d5fb7c956-j7c8l -- cat /opt/bitnami/nginx/config/index.html
+  168  oc exec -it myweb-7d5fb7c956-j7c8l --  cat /opt/bitnami/nginx/conf/index.html
+  169  oc create secret -h | less
+  170  oc create secret docker-registry -h | less
+  171  oc create secret docker-registry my-secret --docker-server=docker.io --docker-username=myuser --docker-password=password --docker-email=dummy@example.com
+  172  oc describe secrets my-secret 
+  173  oc get secret my-secret -o yaml
+  174  echo eyJhdXRocyI6eyJkb2NrZXIuaW8iOnsidXNlcm5hbWUiOiJteXVzZXIiLCJwYXNzd29yZCI6InBhc3N3b3JkIiwiZW1haWwiOiJkdW1teUBleGFtcGxlLmNvbSIsImF1dGgiOiJiWGwxYzJWeU9uQmhjM04zYjNKayJ9fX0= | base64 -d
+  175  oc explain pod.spec | less
+  176  oc new-project lab8
+  177  oc create deploy lab8web --image=bitnami/nginx
+  178  echo this is lab 8 > index.html
+  179  oc create cm lab8cm --from-file=index.html
+  180  oc set volume --add -t configmap --configmap-name lab8cm -m /opt/bitnami/nginx/conf/index.html --sub-path='index.html' deploy/lab8web
+  181  oc get deploy lab8web -o yaml | less
+  182  oc login -u kubeadmin -p mjGRH-XmUQm-oC55w-zRSTX
+  183  oc get pv
+  184  oc get deploy lab8web -o yaml | less
+  185  exit
+  186  top
+  187  crc status
+  188  crc start
+  189  eval $(crc oc-env)
+  190  source <(oc completion bash)
+  191  oc whoami
+  192  oc login -u developer
+  193  oc get deploy lab8web -o yaml | less
+  194  oc whoami
+  195  oc new-project svcdemo
+  196  oc create deploy webapp --image=bitnami/nginx
+  197  oc get pods -o wide
+  198  oc scale deploy webapp --replicas=3
+  199  oc get pods -o wide
+  200  oc expose deploy webapp --port=8080
+  201  oc get svc
+  202  oc describe svc webapp 
+  203  oc get endpoints
+  204  curl 10.217.5.131
+  205  oc edit svc webapp 
+  206  oc get svc
+  207  crc ip
+  208  oc get svc
+  209  curl 192.168.130.11:30802
+  210  oc get svc
+  211  oc projects
+  212  oc get svc
+  213  oc expose svc webapp 
+  214  oc get routes
+  215  curl webapp-svcdemo.apps-crc.testing
+  216  oc edit svc webapp 
+  217  oc get svc
+  218  curl webapp-svcdemo.apps-crc.testing
+  219  oc describe routes.route.openshift.io webapp 
+  220  oc new-project lab9
+  221  oc create deploy routed --image=bitnami/nginx --replicas=3
+  222  oc expose deploy routed --port=8080
+  223  oc expose svc routed 
+  224  oc get routes
+  225  curl routed-lab9.apps-crc.testing
+  226  oc new-project tekton
+  227  cd openshift/.git/
+  228  cd ..
+  229  ls
+  230  cd ..
+  231  git clone https://github.com/sandervanvugt/gitops
+  232  cd gitops/
+  233  ls
+  234  oc apply -f demotask.yaml
+  235  sudo -i
+  236  exit
+  237  sudo -i
+  238  exit
+  239  sudo poweroff
+  240  poweroff
+  241  lspci -k 
+  242  crc start
+  243  eval $(crc oc-env)
+  244  ADMIN_PASSWD=$(oc get secret openshift-gitops-cluster -n openshift-gitops -o jsonpath='{.data.admin\.password}' | base64 -d)
+  245  oc login -u kubeadmin -p mjGRH-XmUQm-oC55w-zRSTX
+  246  ADMIN_PASSWD=$(oc get secret openshift-gitops-cluster -n openshift-gitops -o jsonpath='{.data.admin\.password}' | base64 -d)
+  247  oc get routes -n openshift-gitops
+  248  argocd login --username admin --password ${ADMIN_PASSWD} openshift-gitops-server-openshift-gitops.apps-crc.testing
+  249  argocd app list
+  250  argocd login --username admin --password ${ADMIN_PASSWD} openshift-gitops-server-openshift-gitops.apps-crc.testing
+  251  argocd version
+  252  argocd version --client
+  253  argocd login --username admin --password ${ADMIN_PASSWD} openshift-gitops-server-openshift-gitops.apps-crc.testing
+  254  oc cluster-info
+  255  history
+  256  oc get routes -n openshift-gitops
+  257  sudo poweroff
+  258  crc console --credentials
+  259  crc console
+  260  ARGOCD_VERSION=$(curl --silent "https://api.github.com/repos/argoproj/argo-cd/releases/latest" | grep '"tag_name"' | sed -E 's/.*"([^"]+)".*/\1/')
+  261  curl -sSL -o /tmp/argocd-${ARGOCD_VERSION} https://github.com/argoproj/argo-cd/releases/download/${ARGOCD_VERSION}/argocd-linux-amd64
+  262  chmod +x /tmp/argocd-${VERSION}
+  263  sudo mv /tmp/argocd-${VERSION} /usr/local/bin/argocd 
+  264  ls -l /tmp/argo*
+  265  sudo chmod +x /tmp/argocd-v2.12.3 
+  266  sudo mv /tmp/argocd-v2.12.3 /usr/local/bin/argocd
+  267  argocd version
+  268  argocd version --client
+  269  crc start
+  270  eval $(crc oc-env)
+  271  oc login -u developer
+  272  oc new-project templates
+  273  oc get templates -n openshift
+  274  oc describe template mysql-persistent -n openshift
+  275  oc describe template mysql-persistent -n openshift | less
+  276  oc process --parameters -n openshift mysql-persistent
+  277  oc new-app -l type=production --template mysql-persistent -p MYSQL_USER=bob -p MYSQL_PASSWORD=password
+  278  oc get all
+  279  oc get deploy
+  280  ls /tmp/helm-v3.16.1-linux-arm.tar 
+  281  tar xvf /tmp/helm-v3.16.1-linux-arm.tar 
+  282  ls
+  283  sudo cp linux-arm/helm /usr/local/bin/
+  284  helm --help
+  285  rm  /tmp/helm-v3.16.1-linux-arm.tar 
+  286  eval $(crc oc-env)
+  287  oc login -u developer
+  288  tar xvf  /tmp/helm-v3.16.1-linux-amd64.tar 
+  289  ls
+  290  sudo cp linux-amd64/helm /usr/local/bin/
+  291  helm version
+  292  helm repo add bitnami https://charts.bitnami.com/bitnami
+  293  helm repo list
+  294  helm repo update
+  295  helm search repo nginx
+  296  helm install nginxapp bitnami/nginx
+  297  oc get pods,services,routes
+  298  source <(oc completion bash)
+  299  oc describe pod nginxapp-67986b776d-wfxc5 
+  300  crc status
+  301  crc stop
+  302  crc delete
+  303  crc setup
+  304  crc start --help
+  305  ls
+  306  ls Downloads/
+  307  crc start -p Downloads/pull-secret -d 64 -m 32768
+  308  eval $(crc oc-env)
+  309  oc login -u kubeadmin -p ipszj-shwAm-9srMv-KzZRz
+  310  oc login -u developer 
+  311  crc status
+  312  crc console
+  313  crc console --credentials
+  314  sudo poweroff
+  315  eval $(crc oc-env)
+  316  oc login -u developer 
+  317  oc get templates -n openshift
+  318  oc process --parameters -n openshift mysql-ephemeral
+  319  oc new-project lab10
+  320  oc new-app --template mysql-ephemeral -p MYSQL_ROOT_PASSWORD=password -p MYSQL_USER=lisa -p MYSQL_PASSWORD=password
+  321  oc create --help | less
+  322  oc get all
+  323  oc new-app --template mysql-ephemeral -p MYSQL_ROOT_PASSWORD=password --as-deployment
+  324  oc whoami
+  325  #oc new-app php~https://github.com/sandervanvugt/simpleapp --name=simple-app
+  326  oc new-project sources
+  327  oc new-app php~https://github.com/sandervanvugt/simpleapp --name=simple-app
+  328  oc get all
+  329  oc expose service simple-app
+  330  oc get all
+  331  curl simple-app-sources.apps-crc.testing
+  332  oc start-build simple1
+  333  oc get builds
+  334  oc start-build simple-app-1
+  335  oc get all
+  336  oc start-build simple-app
+  337  oc get all
+  338  curl simple-app-sources.apps-crc.testing
+  339  oc new-app https://github.com/sandervanvugt/webapp --name=webapp
+  340  oc new-project
+  341  oc new-project lab11
+  342  oc new-app php~https://github.com/sandervanvugt/webapp --name=webapp
+  343  oc get all
+  344  oc expose service webapp
+  345  oc get all
+  346  curl webapp-lab11.apps-crc.testing
+  347  oc get all
+  348  oc start-build webapp
+  349  oc get all
+  350  curl webapp-lab11.apps-crc.testing
+  351  crc start
+  352  eval $(crc oc-env)
+  353  oc login -u kubeadmin -p ipszj-shwAm-9srMv-KzZRz
+  354  oc get ns | grep gitops
+  355  oc get all -n openshift-gitops
+  356  source <(oc completion bash)
+  357  oc get ns | grep gitops
+  358  oc edit -n openshift-gitops argocd openshift-gitops
+  359  oc create configmap -n openshift-gitops cluster-root-ca-bundle
+  360  oc label configmap -n openshift-gitops cluster-root-ca-bundle config.openshift.io/inject-trusted-cabundle=true
+  361  oc edit argocd -n openshift-gitops openshift-gitops
+  362  ADMIN_PASSWD=$(oc get secret openshift-gitops-cluster -n openshift-gitops -o jsonpath='{.data.admin\.password}' | base64 -d)
+  363  echo $ADMIN_PASSWD
+  364  SERVER_URL=$(oc get routes openshift-gitops-server -n openshift-gitops -o jsonpath='{.status.ingress[0].host}')
+  365  echo $SERVER_URL
+  366  argocd login --username admin --password ${ADMIN_PASSWD} ${SERVER_URL}
+  367  echo $ADMIN_PASSWD > /tmp/adminpw
+  368  ip a
+  369  crc console
+  370  cat /tmp/adminpw 
+  371  sudo poweroff
+  372  eval $(crc oc-env)
+  373  oc login -u kubeadmin -p ipszj-shwAm-9srMv-KzZRz
+  374  oc get kubevirt -n kubevirt -o yaml
+  375  oc get all -A | grep kubevirt
+  376  oc get all -A | grepvirt
+  377  oc get all -A | grep virt
+  378  oc get all -n openshift-cnv
+  379  oc get all -n openshift-cvn
+  380  oc get cm -A
+  381  oc get cm -A | grep virt
+  382  oc get cm -A | grep kube
+  383  oc edit hyperconverget kubevirt-hyperconverget -n openshift-cnv
+  384  oc edit hyperconverged kubevirt-hyperconverged -n openshift-cnv
+  385  oc api-resources | grep hyper
+  386  oc api-resources
+  387  oc get all -n openshift-cnv
+  388  exit
+  389  cat /etc/hosts
+  390  exit
+  391  crc start
+  392  eval $(crc oc-env)
+  393  oc login -u kubeadmin -p ipszj-shwAm-9srMv-KzZRz
+  394  oc login -u developer
+  395  exit
+  396  eval $(crc oc-env)
+  397  oc login -u developer 
+  398  oc new-project
+  399  oc new-project restrictions
+  400  oc create deploy limited --image=bitnami/nginx
+  401  source <(oc source bash)
+  402  source <(oc completion bash)
+  403  oc set resources
+  404  oc set resources -h | less
+  405  oc get deploy
+  406  oc set resources deployment limnited --limits=cpu=200m,memory=512Mi --requests=cpu=100m,memory=256Mi
+  407  oc set resources deployment limited --limits=cpu=200m,memory=512Mi --requests=cpu=100m,memory=256Mi
+  408  oc describe deployment limited 
+  409  oc login -u kubeadmin -p ipszj-shwAm-9srMv-KzZRz
+  410  oc describe nodes crc 
+  411  oc login -u developer 
+  412  oc edit deployment limited 
+  413  oc get all
+  414  oc describe pod limited-866d945588-8dg64 
+  415  oc edit deployment limited 
+  416  oc get all
+  417  oc describe pod limited-5688f747c4-kdjns 
+  418  oc get all
+  419  oc delete pod limited-5688f747c4-kdjns 
+  420  oc get all
+  421  oc describe pod limited-5688f747c4-64gd9 
+  422  oc get pods
+  423  oc edit deploy limited 
+  424  oc get pods
+  425  oc get all
+  426  oc new-project insecure
+  427  oc whoami
+  428  oc create deploy secapp --image=nginx
+  429  oc get all
+  430  oc logs secapp-5f4f95785c-vpmxh 
+  431  oc login -u kubeadmin -p ipszj-shwAm-9srMv-KzZRz
+  432  oc get deploy secapp -o yaml | oc adm policy scc-subject-review -f -
+  433  oc create sa anyuid
+  434  oc adm policy add-scc-to-user anyuid -z anyuid
+  435  oc login -u developer 
+  436  oc get all
+  437  oc set sa deploy secapp anyuid
+  438  oc get all
+  439  oc whoami
+  440  oc new-project lab12
+  441  oc create deploy lab12 --image=nginx
+  442  oc logs lab12-6bf89ff4d5-prs8m 
+  443  oc login -u kubeadmin -p ipszj-shwAm-9srMv-KzZRz
+  444  oc get deployment secapp -o yaml | oc adm policy scc-subject-review -f -
+  445  oc get deployment lab12 -o yaml | oc adm policy scc-subject-review -f -
+  446  oc create sa lab12
+  447  oc adm policy add-scc-to-user anyuid -z lab12
+  448  oc login -u developer 
+  449  oc set sa deploy secapp lab12
+  450  oc login -u developer 
+  451  oc set sa deploy lab12 lab12
+  452  oc get all
+  453  crc stop
+  454  crc start
+  455  sudo poweroff
+  456  eval $(crc oc-env)
+  457  oc login -u kubeadmin -p ipszj-shwAm-9srMv-KzZRz
+  458  crc console
+  459  crc stop
+  460  crc delete
+  461  ls
+  462  cd Downloads/
+  463  ls
+  464  crc setup
+  465  crc start -p pull-secret  -m 65536 -d 128 -p 8
+  466  crc start -p pull-secret  -m 32769 -d 128 -p 8
+  467  crc start -p Downloads/pull-secret  -m 32769 -d 128 -p 8
+  468  ls
+  469  cat pull-secret 
+  470  crc start -p pull-secret  -m 32769 -d 128 -p 8
+  471  eval $(crc oc-env)
+  472  oc login -u kubeadmin -p KbyFp-Ff4iD-sCXDB-EATWf
+  473  crc console
+  474  free -m
+  475  sudo poweroff
+  476  crc start
+  477  crc console
+  478  history | grep crc
+  479  crc status
+  480  crc stop
+  481  crc setup
+  482  history | grep crc
+  483  cd Downloads/
+  484  ls p*
+  485  crc start -p pull-secret  -m 32769 -d 128 -p 8
+  486  crc console
+  487  crc start
+  488  crc status
+  489  crc stop
+  490  crc delete
+  491  crc setup
+  492  cd Downloads/
+  493  crc start -p pull-secret  -m 32769 -d 128 -p 8
+  494  cat pull-secret 
+  495  crc start -p ./pull-secret  -m 32769 -d 128 -p 8
+  496  history | grep crc start
+  497  history | grep 'crc start'
+  498  crc start -p Downloads/pull-secret  -m 32769 -d 128 -p 8
+  499  cat Downloads/pull-secret 
+  500  crc start -h | less
+  501  crc start -p Downloads/pull-secret  -m 32769 -d 128 -c 8
+  502  oc get all
+  503  history | tail
+  504  eval $(crc oc-env)
+  505  oc login -u developer https://api.crc.testing:6443
+  506  oc login -u kubeadmin -p qSZ4s-2cDy6-SHbCZ-xZIg9
+  507  oc whoami
+  508  #crc console
+  509  ls
+  510  cd gitops/
+  511  ls
+  512  ./countdown 12
+  513  history
+  514  oc -h
+  515  oc create -h | less
+  516  oc create deploy -h | less
+  517  oc completion -h | less
+  518  source <(oc completion bash)
+  519  #oc run appname --image=docker.io/library/nginx
+  520  cd
+  521  oc whoami
+  522  oc login -u developer
+  523  oc new-project first
+  524  oc run appname --image=docker.io/library/nginx
+  525  oc get all
+  526  podman search httpd
+  527  oc run simple --image=registry.access.redhat.com/ubi9/httpd-24
+  528  oc get pods
+  529  oc describe pod appname 
+  530  oc logs appname 
+  531  oc delete pod appname 
+  532  oc run bitme --image=docker.io/bitnami/nginx
+  533  oc status --suggest
+  534  oc api-resources | less
+  535  oc api-resources | wc -l
+  536  oc get is -n openshift
+  537  history
+  538  oc run bitmo --image=docker.io/bitnami/nginx --dry-run=client -o yaml
+  539  oc run bitmo --image=docker.io/bitnami/nginx --dry-run=client -o yaml > bitmo.yaml
+  540  oc get pods
+  541  oc apply -f bitmo.yaml 
+  542  oc get pods
+  543  oc whoami
+  544  oc login -u kubeadmin -p qSZ4s-2cDy6-SHbCZ-xZIg9
+  545  oc new-project demo
+  546  oc run webthree --image=docker.io/library/nginx
+  547  oc get pods
+  548  oc login -u developer
+  549  gitops/countdown 12
+  550  oc api-resources
+  551  oc api-resources | less
+  552  oc get pods
+  553  oc get pods simple -o yaml | less
+  554  oc explain pod
+  555  oc explain pod.spec | less
+  556  #oc create deploy nginxone --image=docker.io/bitnami/nginx --replicas=2
+  557  oc new-project 2138
+  558  oc create deploy nginxone --image=docker.io/bitnami/nginx --replicas=2
+  559  oc get all
+  560  oc describe deployment nginxone | less
+  561  oc get deploy nginxone -o yaml | less
+  562  oc new-project 2141
+  563  oc new-app rails-postgresql-example
+  564  oc get all
+  565  oc get deploy
+  566  oc get dc
+  567  curl rails-postgresql-example-2141.apps-crc.testing
+  568  history
+  569  oc whoami
+  570  oc project
+  571  oc projects
+  572  oc get ns
+  573  oc login -u kubeadmin -p qSZ4s-2cDy6-SHbCZ-xZIg9
+  574  oc get ns
+  575  oc get ns | grep -e 
+  576  oc get ns | grep -e '^openshift'
+  577  oc get ns | grep -v '^openshift'
+  578  oc get pods
+  579  oc get pods -A
+  580  oc get pods -A | wc -l
+  581  oc get ns | grep -v '^openshift'
+  582  oc get all -n 2138
+  583  oc login -u developer
+  584  oc new-project 2151
+  585  oc create deploy scaler --image=docker.io/bitnami/nginx
+  586  oc get all
+  587  oc autoscale deploy scaler --min=3 --max=10 --cpu-percent=75
+  588  oc get hpa
+  589  oc get all
+  590  history
+  591  gitops/countdown 1
+  592  gitops/countdown 12
+  593  oc whoami
+  594  oc set -h | less
+  595  oc new-project 2219
+  596  oc create deploy ---image=docker.io/bitnami/nginx --replicas=3
+  597  oc create deploy today ---image=docker.io/bitnami/nginx --replicas=3
+  598  oc create deploy -h | less
+  599  oc create deploy today ---image=bitnami/nginx --replicas=3
+  600  oc create deploy today --image=docker.io/bitnami/nginx --replicas=3
+  601  oc get all
+  602  oc set volume deploy/today --add --claim-name todayclaim --mount-path /var/www/html
+  603  oc get deploy today -o yaml | less
+  604  oc get pvc
+  605  oc delete deploy today
+  606  oc create deploy tomorrow --image=docker.io/bitnami/nginx --replicas=3
+  607  oc set volume deploy/tomorrow --add -t pvc --claim-name todayclaim --claim-size=1G --mount-path /var/www/html
+  608  oc get pvc
+  609  oc get pv,storageclass
+  610  oc login -u kubeadmin -p qSZ4s-2cDy6-SHbCZ-xZIg9
+  611  oc get pv
+  612  oc get pods
+  613  oc get pods -o wide
+  614  oc expose deploy tomorrow --port=8080
+  615  oc get svc
+  616  curl 10.217.5.60
+  617  oc describe svc tomorrow 
+  618  oc get endpoints
+  619  oc expose service tomorrow 
+  620  oc get all
+  621  curl tomorrow-2219.apps-crc.testing
+  622  oc create route -h | less
+  623  oc create route edge -h | less
+  624  #oc new-app php~https://github.com/sandervanvugt/simpleapp --name=simple-app
+  625  oc new-project 2247
+  626  oc new-app php~https://github.com/sandervanvugt/simpleapp --name=simple-app
+  627  oc get all
+  628  oc expose service simple-app
+  629  oc get routesw
+  630  oc get routes
+  631  curl simple-app-2247.apps-crc.testing
+  632  oc start-build simple-app
+  633  oc get all
+  634  curl simple-app-2247.apps-crc.testing
+  635  history > /tmp/history-6nov24.txt
